@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'login_form.dart';
 
-class RegistrationForm extends StatelessWidget {
+class RegistrationForm extends StatefulWidget {
   const RegistrationForm({super.key});
+
+  @override
+  _RegistrationFormState createState() => _RegistrationFormState();
+}
+
+class _RegistrationFormState extends State<RegistrationForm> {
+  bool _obscurePassword = true;
+  bool _obscurePasswordConfirmation = true;
+  bool _isChecked = false;  // For the Terms and Conditions checkbox
 
   @override
   Widget build(BuildContext context) {
@@ -27,35 +35,80 @@ class RegistrationForm extends StatelessWidget {
                 decoration: InputDecoration(
                   labelText: 'Email',
                   labelStyle: GoogleFonts.lato(),
-                  border: const OutlineInputBorder(),
+                  filled: true,
+                  fillColor: Colors.grey[70],
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
                 ),
               ),
               const SizedBox(height: 16),
               TextField(
-                obscureText: true,
+                obscureText: _obscurePassword,
                 decoration: InputDecoration(
                   labelText: 'Password',
                   labelStyle: GoogleFonts.lato(),
-                  border: const OutlineInputBorder(),
+                  filled: true,
+                  fillColor: Colors.grey[70],
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
               TextField(
-                obscureText: true,
+                obscureText: _obscurePasswordConfirmation,
                 decoration: InputDecoration(
                   labelText: 'Password Confirmation',
                   labelStyle: GoogleFonts.lato(),
-                  border: const OutlineInputBorder(),
+                  filled: true,
+                  fillColor: Colors.grey[70],
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePasswordConfirmation ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePasswordConfirmation = !_obscurePasswordConfirmation;
+                      });
+                    },
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
               Row(
                 children: [
-                  Checkbox(value: false, onChanged: (value) {}),
+                  Checkbox(
+                    value: _isChecked,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        _isChecked = value ?? false;
+                      });
+                    },
+                  ),
                   Expanded(
-                    child: Text(
-                      'By creating an account, you agree to our Terms & Conditions',
-                      style: GoogleFonts.lato(),
+                    child: Text.rich(
+                      TextSpan(
+                        style: GoogleFonts.lato(),
+                        children: [
+                          TextSpan(
+                            text: 'By creating an account, you agree to our ',
+                          ),
+                          TextSpan(
+                            text: 'Terms & Conditions',
+                            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -65,9 +118,15 @@ class RegistrationForm extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
                   child: Text(
                     'Register',
-                    style: GoogleFonts.lato(fontSize: 16),
+                    style: GoogleFonts.lato(fontSize: 16, color: Colors.white),
                   ),
                 ),
               ),
@@ -75,7 +134,7 @@ class RegistrationForm extends StatelessWidget {
               Center(
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.pop(context);  // Navigate back to the login form
                   },
                   child: Text.rich(
                     TextSpan(

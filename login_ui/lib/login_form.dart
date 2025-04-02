@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'registration_form.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
+
+  @override
+  _LoginFormState createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  bool _obscurePassword = true; // To toggle visibility
+  bool _rememberMe = false; // To track the checkbox state
 
   @override
   Widget build(BuildContext context) {
@@ -27,22 +35,44 @@ class LoginForm extends StatelessWidget {
                 decoration: InputDecoration(
                   labelText: 'Email',
                   labelStyle: GoogleFonts.lato(),
-                  border: const OutlineInputBorder(),
+                  filled: true,
+                  fillColor: Colors.grey[70],
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
                 ),
               ),
               const SizedBox(height: 16),
               TextField(
-                obscureText: true,
+                obscureText: _obscurePassword, // Toggle password visibility
                 decoration: InputDecoration(
                   labelText: 'Password',
                   labelStyle: GoogleFonts.lato(),
-                  border: const OutlineInputBorder(),
+                  filled: true,
+                  fillColor: Colors.grey[70],
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword; // Toggle visibility
+                      });
+                    },
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
               Row(
                 children: [
-                  Checkbox(value: false, onChanged: (value) {}),
+                  Checkbox(
+                    value: _rememberMe, // Track checkbox state
+                    onChanged: (bool? value) {
+                      setState(() {
+                        _rememberMe = value ?? false; // Update checkbox state
+                      });
+                    },
+                  ),
                   Text(
                     'Remember me',
                     style: GoogleFonts.lato(),
@@ -54,9 +84,15 @@ class LoginForm extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
                   child: Text(
                     'Login',
-                    style: GoogleFonts.lato(fontSize: 16),
+                    style: GoogleFonts.lato(fontSize: 16, color: Colors.white),
                   ),
                 ),
               ),
@@ -68,17 +104,20 @@ class LoginForm extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
-                  onPressed: () {},
-                  label: Text(
-                    'Login with Google',
-                    style: GoogleFonts.lato(fontSize: 16),
+              ElevatedButton.icon(
+                onPressed: () {},
+                icon: Icon(Icons.account_circle, color: Colors.black),
+                label: Text("Login with Google", style: TextStyle(color: Colors.black)),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(double.infinity, 50),
+                  backgroundColor: Colors.grey[10],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
                   ),
                 ),
               ),
               const SizedBox(height: 24),
+              // Remove Spacer() and use the remaining space to push the register text down
               Center(
                 child: GestureDetector(
                   onTap: () {
@@ -111,3 +150,4 @@ class LoginForm extends StatelessWidget {
     );
   }
 }
+
