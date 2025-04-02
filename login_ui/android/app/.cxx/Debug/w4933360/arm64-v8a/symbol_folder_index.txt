@@ -1,0 +1,1 @@
+D:\I4-II\Intro.Mobile Dev\TP2\login_ui\build\app\intermediates\cxx\Debug\w4933360\obj\arm64-v8a
